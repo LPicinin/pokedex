@@ -5,6 +5,7 @@
       We couldn't find this pokemon
     </p>
     <ListItem v-else-if="isPokemonSearch" v-bind="pokemonsList[0]" />
+    <PokemonDescription v-else-if="pokemonId" :id="pokemonId" />
     <template v-else>
       <ListItem
         v-for="pokemon in pokemonsList"
@@ -19,13 +20,15 @@
 <script>
 import { state, getters, mutations, actions } from "@/store";
 import ListItem from "./ListItem.vue";
+import PokemonDescription from "@/components/PokemonDescription/PokemonDescription.vue";
 export default {
   name: "List",
   components: {
     ListItem,
+    PokemonDescription,
   },
-  created(){
-    actions.getPokemons();//necessário pois o infinite-loading não está funcionando
+  created() {
+    actions.getPokemons(); //necessário pois o infinite-loading não está funcionando
   },
   computed: {
     pokemonsList() {
@@ -40,6 +43,10 @@ export default {
     hasSearchError() {
       return state.hasSearchError;
     },
+    pokemonId()
+    {
+      return state.pokemonId;
+    }
   },
   methods: {
     async infiniteHandler($state) {
@@ -85,7 +92,7 @@ export default {
     border: 20px solid color(white);
   }
 
-  &--message{
+  &--message {
     text-align: center;
     margin-top: 8px;
   }
